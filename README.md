@@ -4,7 +4,7 @@ Shorten URLs. Track every click.
 
 <!-- screenshot -->
 
-**[Live Demo](https://snip-3gf2kd70x-bitcoineo.vercel.app)**
+**[Live Demo](https://snip-bitcoineo.vercel.app)**
 
 ## Features
 
