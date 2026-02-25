@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLinkByCode } from "@/lib/links";
 import { getLinkStats } from "@/lib/analytics";
+import { getBaseUrl } from "@/lib/base-url";
 import { count, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { clicks } from "@/db/schema";
@@ -56,14 +57,13 @@ export async function GET(
     );
   }
 
-  const host = request.headers.get("host") ?? "localhost:3000";
-  const protocol = request.headers.get("x-forwarded-proto") ?? "http";
+  const baseUrl = getBaseUrl(request);
 
   return NextResponse.json({
     link: {
       id: link.id,
       shortCode: link.shortCode,
-      shortUrl: `${protocol}://${host}/${link.shortCode}`,
+      shortUrl: `${baseUrl}/${link.shortCode}`,
       originalUrl: link.originalUrl,
       createdAt: link.createdAt.toISOString(),
       totalClicks,

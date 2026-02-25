@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getLinkByCode } from "@/lib/links";
 import { generateQRCode } from "@/lib/qrcode";
+import { getBaseUrl } from "@/lib/base-url";
 
 const CODE_REGEX = /^[a-zA-Z0-9]{7}$/;
 
@@ -25,9 +26,8 @@ export async function GET(
     );
   }
 
-  const host = _request.headers.get("host") ?? "localhost:3000";
-  const protocol = _request.headers.get("x-forwarded-proto") ?? "http";
-  const shortUrl = `${protocol}://${host}/${linkResult.data.shortCode}`;
+  const baseUrl = getBaseUrl(_request);
+  const shortUrl = `${baseUrl}/${linkResult.data.shortCode}`;
 
   const buffer = await generateQRCode(shortUrl);
 

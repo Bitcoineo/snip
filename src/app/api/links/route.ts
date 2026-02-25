@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createLink, getLinks } from "@/lib/links";
+import { getBaseUrl } from "@/lib/base-url";
 
 const createLinkSchema = z.object({
   url: z
@@ -41,9 +42,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const host = request.headers.get("host") ?? "localhost:3000";
-  const protocol = request.headers.get("x-forwarded-proto") ?? "http";
-  const shortUrl = `${protocol}://${host}/${result.data.shortCode}`;
+  const baseUrl = getBaseUrl(request);
+  const shortUrl = `${baseUrl}/${result.data.shortCode}`;
 
   return NextResponse.json(
     {
@@ -71,14 +71,13 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const host = request.headers.get("host") ?? "localhost:3000";
-  const protocol = request.headers.get("x-forwarded-proto") ?? "http";
+  const baseUrl = getBaseUrl(request);
 
   return NextResponse.json({
     links: result.data.links.map((link) => ({
       id: link.id,
       shortCode: link.shortCode,
-      shortUrl: `${protocol}://${host}/${link.shortCode}`,
+      shortUrl: `${baseUrl}/${link.shortCode}`,
       originalUrl: link.originalUrl,
       totalClicks: link.totalClicks,
       createdAt: link.createdAt.toISOString(),
