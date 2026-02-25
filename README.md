@@ -12,6 +12,7 @@ Shorten URLs. Track every click.
 - **Click Analytics** — every click is tracked with referrer, country, device, and browser
 - **Real-time Dashboard** — per-link analytics with SVG bar charts and breakdown cards
 - **Time Range Selector** — view stats for the last 7, 14, 30, or 90 days
+- **QR Code Generation** — every short link gets a downloadable QR code (PNG)
 - **Rate Limiting** — 10 requests/minute per IP on link creation
 - **Dark Mode UI** — responsive, minimal design with no component libraries
 
@@ -104,6 +105,14 @@ GET /api/links/:code/stats?days=7
 
 Returns clicks per day, top referrers, countries, browsers, and devices for the given time range (1–90 days).
 
+### QR Code
+
+```
+GET /api/links/:code/qr
+```
+
+Returns the QR code as a `image/png`. Cached for 24 hours.
+
 ### Redirect
 
 ```
@@ -122,6 +131,7 @@ API routes in `src/app/` are thin handlers that delegate to a `src/lib/` busines
 | `clicks.ts` | Fire-and-forget click recording |
 | `analytics.ts` | Clicks per day (zero-filled), top referrers/countries/browsers/devices |
 | `parse-headers.ts` | Extract referrer, country (Vercel geo header), device, and browser from request headers |
+| `qrcode.ts` | QR code PNG generation for short URLs |
 | `rate-limit.ts` | In-memory fixed-window rate limiter (10 req/60s per IP) |
 
 The database layer (`src/db/`) defines the Drizzle schema and exposes a singleton client. Migrations are applied via a custom runner that works with both local SQLite and Turso.

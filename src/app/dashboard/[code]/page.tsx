@@ -6,6 +6,7 @@ import Link from "next/link";
 import CopyButton from "@/components/CopyButton";
 import ClickChart from "@/components/ClickChart";
 import StatsCard from "@/components/StatsCard";
+import QRCode from "@/components/QRCode";
 
 interface LinkInfo {
   id: string;
@@ -120,6 +121,14 @@ export default function DashboardPage() {
           <span>
             Created {new Date(link.createdAt).toLocaleDateString()}
           </span>
+        </div>
+      </div>
+
+      {/* QR Code */}
+      <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 mb-6 flex items-center gap-6">
+        <QRCode shortCode={link.shortCode} size="lg" />
+        <div className="text-sm text-zinc-400">
+          <p>Scan to open this link, or download the QR code for print.</p>
         </div>
       </div>
 

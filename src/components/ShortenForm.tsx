@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CopyButton from "./CopyButton";
+import QRCode from "./QRCode";
 
 interface CreatedLink {
   shortCode: string;
@@ -73,20 +74,25 @@ export default function ShortenForm({
 
       {result && (
         <div className="mt-4 p-4 rounded-lg bg-zinc-900 border border-zinc-800">
-          <div className="flex items-center justify-between gap-3">
-            <a
-              href={result.shortUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 font-mono text-lg truncate"
-            >
-              {result.shortUrl}
-            </a>
-            <CopyButton text={result.shortUrl} />
+          <div className="flex gap-4">
+            <QRCode shortCode={result.shortCode} size="sm" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-3">
+                <a
+                  href={result.shortUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-300 font-mono text-lg truncate"
+                >
+                  {result.shortUrl}
+                </a>
+                <CopyButton text={result.shortUrl} />
+              </div>
+              <p className="mt-1 text-sm text-zinc-500 truncate">
+                {result.originalUrl}
+              </p>
+            </div>
           </div>
-          <p className="mt-1 text-sm text-zinc-500 truncate">
-            {result.originalUrl}
-          </p>
         </div>
       )}
     </div>
