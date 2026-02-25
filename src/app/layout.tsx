@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -48,10 +47,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
-        <nav className="flex items-center justify-between px-4 py-3 max-w-4xl mx-auto">
-          <Link href="/" className="text-lg font-bold tracking-tight">
-            Snip
-          </Link>
+        <nav className="flex items-center justify-end px-4 py-3 max-w-4xl mx-auto">
           <ThemeToggle />
         </nav>
         {children}
