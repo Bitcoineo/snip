@@ -54,8 +54,8 @@ export default function DashboardPage() {
   if (error) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4">
-        <p className="text-red-400 mb-4">{error}</p>
-        <Link href="/" className="text-blue-400 hover:text-blue-300 text-sm">
+        <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+        <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm">
           Back to home
         </Link>
       </main>
@@ -65,21 +65,21 @@ export default function DashboardPage() {
   if (loading || !stats) {
     return (
       <main className="min-h-screen px-4 py-8 max-w-4xl mx-auto">
-        <div className="h-4 w-16 bg-zinc-800 rounded animate-pulse" />
+        <div className="h-4 w-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
         <div className="mt-6 mb-8">
-          <div className="h-8 w-64 bg-zinc-800 rounded animate-pulse mb-2" />
-          <div className="h-4 w-96 bg-zinc-800 rounded animate-pulse mb-3" />
-          <div className="h-4 w-48 bg-zinc-800 rounded animate-pulse" />
+          <div className="h-8 w-64 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-2" />
+          <div className="h-4 w-96 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-3" />
+          <div className="h-4 w-48 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
         </div>
         <div className="flex gap-2 mb-6">
           {RANGES.map((r) => (
-            <div key={r} className="h-8 w-12 bg-zinc-800 rounded-md animate-pulse" />
+            <div key={r} className="h-8 w-12 bg-zinc-200 dark:bg-zinc-800 rounded-md animate-pulse" />
           ))}
         </div>
-        <div className="h-48 rounded-lg bg-zinc-900 border border-zinc-800 animate-pulse mb-6" />
+        <div className="h-48 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse mb-6" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-40 rounded-lg bg-zinc-900 border border-zinc-800 animate-pulse" />
+            <div key={i} className="h-40 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse" />
           ))}
         </div>
       </main>
@@ -92,7 +92,7 @@ export default function DashboardPage() {
     <main className="min-h-screen px-4 py-8 max-w-4xl mx-auto">
       <Link
         href="/"
-        className="text-sm text-zinc-500 hover:text-zinc-300 transition-colors"
+        className="text-sm text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
       >
         &larr; Back
       </Link>
@@ -100,7 +100,7 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="mt-6 mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-2xl font-bold font-mono text-blue-400">
+          <h1 className="text-2xl font-bold font-mono text-blue-600 dark:text-blue-400">
             {link.shortUrl}
           </h1>
           <CopyButton text={link.shortUrl} />
@@ -109,13 +109,13 @@ export default function DashboardPage() {
           href={link.originalUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-zinc-500 hover:text-zinc-300 break-all"
+          className="text-sm text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 break-all"
         >
           {link.originalUrl}
         </a>
-        <div className="flex gap-6 mt-3 text-sm text-zinc-400">
+        <div className="flex gap-6 mt-3 text-sm text-zinc-600 dark:text-zinc-400">
           <span>
-            <strong className="text-white">{link.totalClicks}</strong> total
+            <strong className="text-zinc-900 dark:text-white">{link.totalClicks}</strong> total
             clicks
           </span>
           <span>
@@ -125,9 +125,9 @@ export default function DashboardPage() {
       </div>
 
       {/* QR Code */}
-      <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 mb-6 flex items-center gap-6">
+      <div className="p-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mb-6 flex items-center gap-6">
         <QRCode shortCode={link.shortCode} size="lg" />
-        <div className="text-sm text-zinc-400">
+        <div className="text-sm text-zinc-600 dark:text-zinc-400">
           <p>Scan to open this link, or download the QR code for print.</p>
         </div>
       </div>
@@ -140,8 +140,8 @@ export default function DashboardPage() {
             onClick={() => setDays(r)}
             className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
               days === r
-                ? "bg-white text-black border-white"
-                : "bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600"
+                ? "bg-zinc-900 text-white border-zinc-900 dark:bg-white dark:text-black dark:border-white"
+                : "bg-zinc-100 text-zinc-600 border-zinc-200 hover:border-zinc-400 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
             }`}
           >
             {r}d
@@ -156,8 +156,8 @@ export default function DashboardPage() {
       ) : (
         <>
           {/* Clicks per day chart */}
-          <div className="p-4 rounded-lg bg-zinc-900 border border-zinc-800 mb-6">
-            <h2 className="text-sm font-medium text-zinc-400 mb-4">
+          <div className="p-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mb-6">
+            <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-4">
               Clicks per day
             </h2>
             <ClickChart data={stats.clicksPerDay} />

@@ -18,11 +18,11 @@ function Skeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="p-3 rounded-lg bg-zinc-900 border border-zinc-800 animate-pulse"
+          className="p-3 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse"
         >
-          <div className="h-4 bg-zinc-800 rounded w-48 mb-2" />
-          <div className="h-3 bg-zinc-800 rounded w-72 mb-1" />
-          <div className="h-3 bg-zinc-800 rounded w-24" />
+          <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-48 mb-2" />
+          <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-72 mb-1" />
+          <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-24" />
         </div>
       ))}
     </div>
@@ -51,7 +51,7 @@ export default function LinkList({ refreshKey }: { refreshKey: number }) {
   if (loading) return <Skeleton />;
 
   if (error) {
-    return <p className="text-sm text-red-400">{error}</p>;
+    return <p className="text-sm text-red-600 dark:text-red-400">{error}</p>;
   }
 
   if (links.length === 0) {
@@ -64,16 +64,16 @@ export default function LinkList({ refreshKey }: { refreshKey: number }) {
 
   return (
     <div className="w-full max-w-xl">
-      <h2 className="text-sm font-medium text-zinc-400 mb-3">Recent Links</h2>
+      <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-3">Recent Links</h2>
       <div className="space-y-2">
         {links.map((link) => (
           <button
             key={link.id}
             onClick={() => router.push(`/dashboard/${link.shortCode}`)}
-            className="w-full text-left p-3 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors"
+            className="w-full text-left p-3 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
           >
             <div className="flex items-center justify-between gap-4">
-              <span className="font-mono text-blue-400 text-sm truncate">
+              <span className="font-mono text-blue-600 dark:text-blue-400 text-sm truncate">
                 {link.shortUrl}
               </span>
               <span className="text-xs text-zinc-500 whitespace-nowrap">
@@ -83,7 +83,7 @@ export default function LinkList({ refreshKey }: { refreshKey: number }) {
             <p className="text-xs text-zinc-500 truncate mt-1">
               {link.originalUrl}
             </p>
-            <p className="text-xs text-zinc-600 mt-1">
+            <p className="text-xs text-zinc-400 dark:text-zinc-600 mt-1">
               {new Date(link.createdAt).toLocaleDateString()}
             </p>
           </button>
