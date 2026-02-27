@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
   <rect width="32" height="32" rx="6" fill="#18181b"/>
-  <text x="16" y="23" font-size="20" font-weight="bold" font-family="monospace" fill="#60a5fa" text-anchor="middle">S</text>
+  <!-- Scissors blades -->
+  <circle cx="10" cy="10" r="4" stroke="#60a5fa" stroke-width="2" fill="none"/>
+  <circle cx="10" cy="22" r="4" stroke="#60a5fa" stroke-width="2" fill="none"/>
+  <!-- Cutting lines -->
+  <line x1="13.5" y1="12" x2="24" y2="18" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+  <line x1="13.5" y1="20" x2="24" y2="14" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+  <!-- Snip marks (dashed line being cut) -->
+  <line x1="22" y1="16" x2="28" y2="16" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2" opacity="0.5"/>
 </svg>
