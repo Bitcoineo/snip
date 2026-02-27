@@ -14,15 +14,15 @@ interface LinkItem {
 
 function Skeleton() {
   return (
-    <div className="space-y-2">
-      {[1, 2, 3].map((i) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {[1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          className="p-3 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse"
+          className="rounded-2xl bg-white dark:bg-stone-900 shadow-card p-4 animate-pulse"
         >
-          <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-48 mb-2" />
-          <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-72 mb-1" />
-          <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-24" />
+          <div className="h-4 bg-stone-200 dark:bg-stone-800 rounded w-40 mb-3" />
+          <div className="h-3 bg-stone-200 dark:bg-stone-800 rounded w-full mb-2" />
+          <div className="h-3 bg-stone-200 dark:bg-stone-800 rounded w-20" />
         </div>
       ))}
     </div>
@@ -56,34 +56,36 @@ export default function LinkList({ refreshKey }: { refreshKey: number }) {
 
   if (links.length === 0) {
     return (
-      <p className="text-zinc-500 text-sm text-center py-8">
+      <p className="text-stone-400 dark:text-stone-500 text-sm text-center py-12">
         No links yet — shorten your first URL above!
       </p>
     );
   }
 
   return (
-    <div className="w-full max-w-xl">
-      <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-3">Recent Links</h2>
-      <div className="space-y-2">
+    <div className="w-full">
+      <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-50 mb-4">
+        Recent Links
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {links.map((link) => (
           <button
             key={link.id}
             onClick={() => router.push(`/dashboard/${link.shortCode}`)}
-            className="w-full text-left p-3 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
+            className="text-left rounded-2xl bg-white dark:bg-stone-900 shadow-card p-4 hover:scale-[1.02] hover:shadow-lg transition-all duration-200 cursor-pointer"
           >
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-3 mb-2">
               <span className="font-mono text-blue-600 dark:text-blue-400 text-sm truncate">
                 {link.shortUrl}
               </span>
-              <span className="text-xs text-zinc-500 whitespace-nowrap">
+              <span className="flex-shrink-0 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-full px-2.5 py-0.5 text-xs font-medium">
                 {link.totalClicks} click{link.totalClicks !== 1 ? "s" : ""}
               </span>
             </div>
-            <p className="text-xs text-zinc-500 truncate mt-1">
+            <p className="text-xs text-stone-500 dark:text-stone-400 truncate">
               {link.originalUrl}
             </p>
-            <p className="text-xs text-zinc-400 dark:text-zinc-600 mt-1">
+            <p className="text-xs text-stone-400 dark:text-stone-600 mt-1.5">
               {new Date(link.createdAt).toLocaleDateString()}
             </p>
           </button>

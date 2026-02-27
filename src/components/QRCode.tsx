@@ -29,7 +29,7 @@ export default function QRCode({ shortCode, size = "lg" }: QRCodeProps) {
 
   if (!src) {
     const px = size === "sm" ? "h-20 w-20" : "h-[200px] w-[200px]";
-    return <div className={`${px} bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse`} />;
+    return <div className={`${px} bg-stone-200 dark:bg-stone-800 rounded-xl animate-pulse`} />;
   }
 
   if (size === "sm") {
@@ -38,7 +38,7 @@ export default function QRCode({ shortCode, size = "lg" }: QRCodeProps) {
       <img
         src={src}
         alt="QR code"
-        className="h-20 w-20 rounded"
+        className="h-20 w-20 rounded-xl"
       />
     );
   }
@@ -49,12 +49,12 @@ export default function QRCode({ shortCode, size = "lg" }: QRCodeProps) {
       <img
         src={src}
         alt="QR code"
-        className="h-[200px] w-[200px] rounded"
+        className="h-[200px] w-[200px] rounded-xl"
       />
       <a
         href={qrUrl}
         download={`snip-${shortCode}.png`}
-        className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+        className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
       >
         Download QR
       </a>

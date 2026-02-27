@@ -55,7 +55,7 @@ export default function DashboardPage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4">
         <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-        <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm">
+        <Link href="/" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm transition-colors">
           Back to home
         </Link>
       </main>
@@ -65,21 +65,21 @@ export default function DashboardPage() {
   if (loading || !stats) {
     return (
       <main className="min-h-screen px-4 py-8 max-w-4xl mx-auto">
-        <div className="h-4 w-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
-        <div className="mt-6 mb-8">
-          <div className="h-8 w-64 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-2" />
-          <div className="h-4 w-96 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse mb-3" />
-          <div className="h-4 w-48 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse" />
+        <div className="h-4 w-16 bg-stone-200 dark:bg-stone-800 rounded animate-pulse" />
+        <div className="mt-6 rounded-2xl bg-white dark:bg-stone-900 shadow-card p-6 mb-6 animate-pulse">
+          <div className="h-7 w-64 bg-stone-200 dark:bg-stone-800 rounded mb-3" />
+          <div className="h-4 w-96 bg-stone-200 dark:bg-stone-800 rounded mb-3" />
+          <div className="h-4 w-48 bg-stone-200 dark:bg-stone-800 rounded" />
         </div>
         <div className="flex gap-2 mb-6">
           {RANGES.map((r) => (
-            <div key={r} className="h-8 w-12 bg-zinc-200 dark:bg-zinc-800 rounded-md animate-pulse" />
+            <div key={r} className="h-9 w-14 bg-stone-200 dark:bg-stone-800 rounded-full animate-pulse" />
           ))}
         </div>
-        <div className="h-48 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse mb-6" />
+        <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-card p-6 mb-6 animate-pulse h-56" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-40 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 animate-pulse" />
+            <div key={i} className="h-40 rounded-2xl bg-white dark:bg-stone-900 shadow-card animate-pulse" />
           ))}
         </div>
       </main>
@@ -92,13 +92,16 @@ export default function DashboardPage() {
     <main className="min-h-screen px-4 py-8 max-w-4xl mx-auto">
       <Link
         href="/"
-        className="text-sm text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+        className="inline-flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
       >
-        &larr; Back
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Back
       </Link>
 
-      {/* Header */}
-      <div className="mt-6 mb-8">
+      {/* Header Card */}
+      <div className="mt-6 mb-6 rounded-2xl bg-white dark:bg-stone-900 shadow-md p-6">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold font-mono text-blue-600 dark:text-blue-400">
             {link.shortUrl}
@@ -109,25 +112,24 @@ export default function DashboardPage() {
           href={link.originalUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 break-all"
+          className="text-sm text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 break-all transition-colors"
         >
           {link.originalUrl}
         </a>
-        <div className="flex gap-6 mt-3 text-sm text-zinc-600 dark:text-zinc-400">
-          <span>
-            <strong className="text-zinc-900 dark:text-white">{link.totalClicks}</strong> total
-            clicks
+        <div className="flex gap-4 mt-4">
+          <span className="inline-flex items-center bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-full px-3 py-1 text-sm font-medium">
+            {link.totalClicks} click{link.totalClicks !== 1 ? "s" : ""}
           </span>
-          <span>
+          <span className="inline-flex items-center text-sm text-stone-500 dark:text-stone-400">
             Created {new Date(link.createdAt).toLocaleDateString()}
           </span>
         </div>
       </div>
 
-      {/* QR Code */}
-      <div className="p-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mb-6 flex items-center gap-6">
+      {/* QR Code Card */}
+      <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-6 mb-6 flex items-center gap-6">
         <QRCode shortCode={link.shortCode} size="lg" />
-        <div className="text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="text-sm text-stone-500 dark:text-stone-400">
           <p>Scan to open this link, or download the QR code for print.</p>
         </div>
       </div>
@@ -138,10 +140,10 @@ export default function DashboardPage() {
           <button
             key={r}
             onClick={() => setDays(r)}
-            className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
+            className={`px-4 py-2 text-sm rounded-full font-medium transition-all ${
               days === r
-                ? "bg-zinc-900 text-white border-zinc-900 dark:bg-white dark:text-black dark:border-white"
-                : "bg-zinc-100 text-zinc-600 border-zinc-200 hover:border-zinc-400 dark:bg-zinc-900 dark:text-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+                ? "bg-blue-600 text-white dark:bg-blue-500 shadow-md"
+                : "bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-400 shadow-card hover:shadow-md"
             }`}
           >
             {r}d
@@ -150,14 +152,14 @@ export default function DashboardPage() {
       </div>
 
       {link.totalClicks === 0 ? (
-        <p className="text-zinc-500 text-sm text-center py-12">
+        <p className="text-stone-400 dark:text-stone-500 text-sm text-center py-12">
           No clicks yet — share your link to start tracking!
         </p>
       ) : (
         <>
           {/* Clicks per day chart */}
-          <div className="p-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 mb-6">
-            <h2 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-4">
+          <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-6 mb-6">
+            <h2 className="text-sm font-semibold text-stone-600 dark:text-stone-400 mb-4">
               Clicks per day
             </h2>
             <ClickChart data={stats.clicksPerDay} />

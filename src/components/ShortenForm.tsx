@@ -50,30 +50,43 @@ export default function ShortenForm({
   }
 
   return (
-    <div className="w-full max-w-xl">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <div className="w-full">
+      <form
+        onSubmit={handleSubmit}
+        className="flex items-center gap-2 rounded-full bg-white dark:bg-stone-900 shadow-lg p-2"
+      >
         <input
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Paste a long URL"
-          className="flex-1 px-4 py-3 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors"
+          className="flex-1 bg-transparent border-none outline-none text-lg pl-5 text-stone-900 dark:text-stone-50 placeholder:text-stone-400 dark:placeholder:text-stone-500"
         />
         <button
           type="submit"
           disabled={loading || !url.trim()}
-          className="px-6 py-3 rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-black font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="flex-shrink-0 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white p-3 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {loading ? "..." : "Shorten"}
+          {loading ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="animate-spin">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-25" />
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          )}
         </button>
       </form>
 
       {error && (
-        <p className="mt-3 text-sm text-red-600 dark:text-red-400">{error}</p>
+        <p className="mt-3 text-sm text-red-600 dark:text-red-400 text-center">{error}</p>
       )}
 
       {result && (
-        <div className="mt-4 p-4 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+        <div className="mt-6 rounded-2xl bg-white dark:bg-stone-900 shadow-md p-5">
           <div className="flex gap-4">
             <QRCode shortCode={result.shortCode} size="sm" />
             <div className="flex-1 min-w-0">
@@ -82,13 +95,13 @@ export default function ShortenForm({
                   href={result.shortUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-mono text-lg truncate"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-mono text-lg truncate transition-colors"
                 >
                   {result.shortUrl}
                 </a>
                 <CopyButton text={result.shortUrl} />
               </div>
-              <p className="mt-1 text-sm text-zinc-500 truncate">
+              <p className="mt-1 text-sm text-stone-500 dark:text-stone-400 truncate">
                 {result.originalUrl}
               </p>
             </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
@@ -47,11 +48,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
-        <nav className="flex items-center justify-end px-4 py-3 max-w-4xl mx-auto">
+        <nav className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
+          <Link href="/" className="text-xl font-extrabold text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity">
+            Snip
+          </Link>
           <ThemeToggle />
         </nav>
-        {children}
-        <footer className="text-center text-xs text-zinc-500 py-6">
+        <div className="animate-fade-in">
+          {children}
+        </div>
+        <footer className="text-center text-xs text-stone-400 dark:text-stone-600 py-8">
           Built with Next.js + Turso
         </footer>
       </body>

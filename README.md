@@ -14,7 +14,7 @@ Shorten URLs. Track every click.
 - **Time Range Selector** — view stats for the last 7, 14, 30, or 90 days
 - **QR Code Generation** — every short link gets a downloadable QR code (PNG)
 - **Rate Limiting** — 10 requests/minute per IP on link creation
-- **Dark Mode UI** — responsive, minimal design with no component libraries
+- **Dark / Light Theme** — toggle between themes with system preference detection, no flash on load
 
 ## Tech Stack
 

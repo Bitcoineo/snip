@@ -12,6 +12,28 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: {
+          DEFAULT: "#2563eb",
+          hover: "#1d4ed8",
+          light: "#dbeafe",
+        },
+      },
+      boxShadow: {
+        card: "0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)",
+      },
+      animation: {
+        float: "float 6s ease-in-out infinite",
+        "fade-in": "fade-in 0.6s ease-out",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "fade-in": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
     },
   },

@@ -39,7 +39,7 @@ export default function ClickChart({ data }: { data: ClickDay[] }) {
                 y={y}
                 width={barWidth}
                 height={barHeight}
-                rx={2}
+                rx={3}
                 className="fill-blue-600 dark:fill-blue-500 hover:fill-blue-500 dark:hover:fill-blue-400 transition-colors"
               />
               {day.clicks > 0 && (
@@ -47,7 +47,7 @@ export default function ClickChart({ data }: { data: ClickDay[] }) {
                   x={x + barWidth / 2}
                   y={y - 4}
                   textAnchor="middle"
-                  className="fill-zinc-500 dark:fill-zinc-400 text-[9px]"
+                  className="fill-stone-500 dark:fill-stone-400 text-[9px]"
                 >
                   {day.clicks}
                 </text>
@@ -57,7 +57,7 @@ export default function ClickChart({ data }: { data: ClickDay[] }) {
                   x={x + barWidth / 2}
                   y={chartHeight + 16}
                   textAnchor="middle"
-                  className="fill-zinc-400 dark:fill-zinc-500 text-[9px]"
+                  className="fill-stone-400 dark:fill-stone-500 text-[9px]"
                 >
                   {day.date.slice(5)}
                 </text>
@@ -70,7 +70,7 @@ export default function ClickChart({ data }: { data: ClickDay[] }) {
           y1={chartHeight}
           x2={chartWidth}
           y2={chartHeight}
-          className="stroke-zinc-300 dark:stroke-zinc-800"
+          className="stroke-stone-200 dark:stroke-stone-800"
           strokeWidth={1}
         />
       </svg>
