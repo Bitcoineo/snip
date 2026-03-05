@@ -33,11 +33,9 @@ function randomDateInLastDays(days: number): Date {
 async function seed() {
   console.log("Seeding database...");
 
-  // Clear existing data
   await db.delete(clicks);
   await db.delete(links);
 
-  // Insert 3 sample links
   const sampleLinks = [
     {
       id: "seed_link_001",
@@ -63,51 +61,22 @@ async function seed() {
   await db.insert(links).values(sampleLinks);
   console.log(`Inserted ${sampleLinks.length} links`);
 
-  // Insert 60 click events spread across links and the last 7 days
-  const clickRows: {
-    linkId: string;
-    clickedAt: Date;
-    referrer: string;
-    country: string;
-    device: string;
-    browser: string;
-  }[] = [];
+  const clickDistribution = [
+    { linkId: "seed_link_001", count: 30 },
+    { linkId: "seed_link_002", count: 20 },
+    { linkId: "seed_link_003", count: 10 },
+  ];
 
-  // Link 1 gets ~30 clicks (most popular)
-  for (let i = 0; i < 30; i++) {
-    clickRows.push({
-      linkId: "seed_link_001",
+  const clickRows = clickDistribution.flatMap(({ linkId, count }) =>
+    Array.from({ length: count }, () => ({
+      linkId,
       clickedAt: randomDateInLastDays(7),
       referrer: pick(REFERRERS),
       country: pick(COUNTRIES),
       device: pick(DEVICES),
       browser: pick(BROWSERS),
-    });
-  }
-
-  // Link 2 gets ~20 clicks
-  for (let i = 0; i < 20; i++) {
-    clickRows.push({
-      linkId: "seed_link_002",
-      clickedAt: randomDateInLastDays(7),
-      referrer: pick(REFERRERS),
-      country: pick(COUNTRIES),
-      device: pick(DEVICES),
-      browser: pick(BROWSERS),
-    });
-  }
-
-  // Link 3 gets ~10 clicks
-  for (let i = 0; i < 10; i++) {
-    clickRows.push({
-      linkId: "seed_link_003",
-      clickedAt: randomDateInLastDays(7),
-      referrer: pick(REFERRERS),
-      country: pick(COUNTRIES),
-      device: pick(DEVICES),
-      browser: pick(BROWSERS),
-    });
-  }
+    }))
+  );
 
   await db.insert(clicks).values(clickRows);
   console.log(`Inserted ${clickRows.length} clicks`);

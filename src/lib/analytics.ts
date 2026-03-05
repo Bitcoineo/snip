@@ -1,4 +1,5 @@
 import { eq, and, gte, sql, count, desc } from "drizzle-orm";
+import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { db } from "@/db";
 import { clicks } from "@/db/schema";
 
@@ -21,6 +22,8 @@ function allDatesInRange(days: number): string[] {
   return dates;
 }
 
+const TOP_LIMIT = 10;
+
 export async function getClicksPerDay(
   linkId: string,
   days: number
@@ -30,15 +33,13 @@ export async function getClicksPerDay(
 > {
   try {
     const cutoff = cutoffDate(days);
+    const dateExpr = sql<string>`date(${clicks.clickedAt}, 'unixepoch')`;
     const rows = await db
-      .select({
-        date: sql<string>`date(${clicks.clickedAt}, 'unixepoch')`,
-        clicks: count(),
-      })
+      .select({ date: dateExpr, clicks: count() })
       .from(clicks)
       .where(and(eq(clicks.linkId, linkId), gte(clicks.clickedAt, cutoff)))
-      .groupBy(sql`date(${clicks.clickedAt}, 'unixepoch')`)
-      .orderBy(sql`date(${clicks.clickedAt}, 'unixepoch')`);
+      .groupBy(dateExpr)
+      .orderBy(dateExpr);
 
     const dbMap = new Map(rows.map((r) => [r.date, Number(r.clicks)]));
     const filled = allDatesInRange(days).map((date) => ({
@@ -52,107 +53,31 @@ export async function getClicksPerDay(
   }
 }
 
-export async function getTopReferrers(
+async function getTopBreakdown(
   linkId: string,
-  days: number
+  days: number,
+  column: SQLiteColumn,
+  fallback: string
 ): Promise<
-  | { data: { referrer: string; clicks: number }[] }
+  | { data: { label: string; count: number }[] }
   | { error: string; message: string }
 > {
   try {
     const cutoff = cutoffDate(days);
     const rows = await db
       .select({
-        referrer: sql<string>`coalesce(${clicks.referrer}, 'direct')`,
-        clicks: count(),
+        label: sql<string>`coalesce(${column}, ${fallback})`,
+        count: count(),
       })
       .from(clicks)
       .where(and(eq(clicks.linkId, linkId), gte(clicks.clickedAt, cutoff)))
-      .groupBy(clicks.referrer)
+      .groupBy(column)
       .orderBy(desc(count()))
-      .limit(10);
+      .limit(TOP_LIMIT);
 
-    return { data: rows.map((r) => ({ ...r, clicks: Number(r.clicks) })) };
+    return { data: rows.map((r) => ({ label: r.label, count: Number(r.count) })) };
   } catch {
-    return { error: "QUERY_FAILED", message: "Failed to get top referrers." };
-  }
-}
-
-export async function getTopCountries(
-  linkId: string,
-  days: number
-): Promise<
-  | { data: { country: string; clicks: number }[] }
-  | { error: string; message: string }
-> {
-  try {
-    const cutoff = cutoffDate(days);
-    const rows = await db
-      .select({
-        country: sql<string>`coalesce(${clicks.country}, 'Unknown')`,
-        clicks: count(),
-      })
-      .from(clicks)
-      .where(and(eq(clicks.linkId, linkId), gte(clicks.clickedAt, cutoff)))
-      .groupBy(clicks.country)
-      .orderBy(desc(count()))
-      .limit(10);
-
-    return { data: rows.map((r) => ({ ...r, clicks: Number(r.clicks) })) };
-  } catch {
-    return { error: "QUERY_FAILED", message: "Failed to get top countries." };
-  }
-}
-
-export async function getTopBrowsers(
-  linkId: string,
-  days: number
-): Promise<
-  | { data: { browser: string; clicks: number }[] }
-  | { error: string; message: string }
-> {
-  try {
-    const cutoff = cutoffDate(days);
-    const rows = await db
-      .select({
-        browser: sql<string>`coalesce(${clicks.browser}, 'Unknown')`,
-        clicks: count(),
-      })
-      .from(clicks)
-      .where(and(eq(clicks.linkId, linkId), gte(clicks.clickedAt, cutoff)))
-      .groupBy(clicks.browser)
-      .orderBy(desc(count()))
-      .limit(10);
-
-    return { data: rows.map((r) => ({ ...r, clicks: Number(r.clicks) })) };
-  } catch {
-    return { error: "QUERY_FAILED", message: "Failed to get top browsers." };
-  }
-}
-
-export async function getTopDevices(
-  linkId: string,
-  days: number
-): Promise<
-  | { data: { device: string; clicks: number }[] }
-  | { error: string; message: string }
-> {
-  try {
-    const cutoff = cutoffDate(days);
-    const rows = await db
-      .select({
-        device: sql<string>`coalesce(${clicks.device}, 'Unknown')`,
-        clicks: count(),
-      })
-      .from(clicks)
-      .where(and(eq(clicks.linkId, linkId), gte(clicks.clickedAt, cutoff)))
-      .groupBy(clicks.device)
-      .orderBy(desc(count()))
-      .limit(10);
-
-    return { data: rows.map((r) => ({ ...r, clicks: Number(r.clicks) })) };
-  } catch {
-    return { error: "QUERY_FAILED", message: "Failed to get top devices." };
+    return { error: "QUERY_FAILED", message: "Failed to get breakdown." };
   }
 }
 
@@ -163,20 +88,20 @@ export async function getLinkStats(
   | {
       data: {
         clicksPerDay: { date: string; clicks: number }[];
-        topReferrers: { referrer: string; clicks: number }[];
-        topCountries: { country: string; clicks: number }[];
-        topBrowsers: { browser: string; clicks: number }[];
-        topDevices: { device: string; clicks: number }[];
+        topReferrers: { label: string; count: number }[];
+        topCountries: { label: string; count: number }[];
+        topBrowsers: { label: string; count: number }[];
+        topDevices: { label: string; count: number }[];
       };
     }
   | { error: string; message: string }
 > {
   const [perDay, referrers, countries, browsers, devices] = await Promise.all([
     getClicksPerDay(linkId, days),
-    getTopReferrers(linkId, days),
-    getTopCountries(linkId, days),
-    getTopBrowsers(linkId, days),
-    getTopDevices(linkId, days),
+    getTopBreakdown(linkId, days, clicks.referrer, "direct"),
+    getTopBreakdown(linkId, days, clicks.country, "Unknown"),
+    getTopBreakdown(linkId, days, clicks.browser, "Unknown"),
+    getTopBreakdown(linkId, days, clicks.device, "Unknown"),
   ]);
 
   if ("error" in perDay) return perDay;

@@ -17,13 +17,18 @@ interface LinkInfo {
   totalClicks: number;
 }
 
+interface BreakdownItem {
+  label: string;
+  count: number;
+}
+
 interface StatsData {
   link: LinkInfo;
   clicksPerDay: { date: string; clicks: number }[];
-  topReferrers: { referrer: string; clicks: number }[];
-  topCountries: { country: string; clicks: number }[];
-  topBrowsers: { browser: string; clicks: number }[];
-  topDevices: { device: string; clicks: number }[];
+  topReferrers: BreakdownItem[];
+  topCountries: BreakdownItem[];
+  topBrowsers: BreakdownItem[];
+  topDevices: BreakdownItem[];
 }
 
 const RANGES = [7, 14, 30, 90] as const;
@@ -167,34 +172,10 @@ export default function DashboardPage() {
 
           {/* Stats grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <StatsCard
-              title="Top Referrers"
-              items={stats.topReferrers.map((r) => ({
-                label: r.referrer,
-                count: r.clicks,
-              }))}
-            />
-            <StatsCard
-              title="Top Countries"
-              items={stats.topCountries.map((c) => ({
-                label: c.country,
-                count: c.clicks,
-              }))}
-            />
-            <StatsCard
-              title="Top Browsers"
-              items={stats.topBrowsers.map((b) => ({
-                label: b.browser,
-                count: b.clicks,
-              }))}
-            />
-            <StatsCard
-              title="Top Devices"
-              items={stats.topDevices.map((d) => ({
-                label: d.device,
-                count: d.clicks,
-              }))}
-            />
+            <StatsCard title="Top Referrers" items={stats.topReferrers} />
+            <StatsCard title="Top Countries" items={stats.topCountries} />
+            <StatsCard title="Top Browsers" items={stats.topBrowsers} />
+            <StatsCard title="Top Devices" items={stats.topDevices} />
           </div>
         </>
       )}

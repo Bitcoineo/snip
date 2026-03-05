@@ -5,8 +5,7 @@ import { getBaseUrl } from "@/lib/base-url";
 import { count, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { clicks } from "@/db/schema";
-
-const CODE_REGEX = /^[a-zA-Z0-9]{7}$/;
+import { CODE_REGEX } from "@/lib/constants";
 
 export async function GET(
   request: NextRequest,

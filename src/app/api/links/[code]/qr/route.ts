@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getLinkByCode } from "@/lib/links";
 import { generateQRCode } from "@/lib/qrcode";
 import { getBaseUrl } from "@/lib/base-url";
-
-const CODE_REGEX = /^[a-zA-Z0-9]{7}$/;
+import { CODE_REGEX } from "@/lib/constants";
 
 export async function GET(
   _request: NextRequest,

@@ -74,24 +74,23 @@ export async function getLinks(
   try {
     const offset = (page - 1) * limit;
 
-    const rows = await db
-      .select({
-        id: links.id,
-        shortCode: links.shortCode,
-        originalUrl: links.originalUrl,
-        createdAt: links.createdAt,
-        totalClicks: count(clicks.id),
-      })
-      .from(links)
-      .leftJoin(clicks, eq(links.id, clicks.linkId))
-      .groupBy(links.id)
-      .orderBy(desc(links.createdAt))
-      .limit(limit)
-      .offset(offset);
-
-    const [{ total }] = await db
-      .select({ total: count() })
-      .from(links);
+    const [rows, [{ total }]] = await Promise.all([
+      db
+        .select({
+          id: links.id,
+          shortCode: links.shortCode,
+          originalUrl: links.originalUrl,
+          createdAt: links.createdAt,
+          totalClicks: count(clicks.id),
+        })
+        .from(links)
+        .leftJoin(clicks, eq(links.id, clicks.linkId))
+        .groupBy(links.id)
+        .orderBy(desc(links.createdAt))
+        .limit(limit)
+        .offset(offset),
+      db.select({ total: count() }).from(links),
+    ]);
 
     return {
       data: {

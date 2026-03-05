@@ -1,12 +1,6 @@
 import { db } from "@/db";
 import { clicks } from "@/db/schema";
-
-interface ClickMetadata {
-  referrer: string | null;
-  country: string | null;
-  device: string | null;
-  browser: string | null;
-}
+import type { ClickMetadata } from "@/lib/parse-headers";
 
 export function recordClick(linkId: string, metadata: ClickMetadata): void {
   db.insert(clicks)

@@ -45,12 +45,3 @@ export function checkRateLimit(ip: string): RateLimitResult {
   };
 }
 
-// Clean up expired entries every 60 seconds to prevent memory leaks
-setInterval(() => {
-  const now = Date.now();
-  windows.forEach((entry, ip) => {
-    if (now - entry.windowStart > WINDOW_MS) {
-      windows.delete(ip);
-    }
-  });
-}, WINDOW_MS);
