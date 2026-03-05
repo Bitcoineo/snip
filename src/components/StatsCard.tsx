@@ -14,7 +14,7 @@ export default function StatsCard({
 }) {
   if (items.length === 0) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-5">
+      <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-4 sm:p-5">
         <h3 className="text-sm font-semibold text-stone-600 dark:text-stone-400 mb-3">{title}</h3>
         <p className="text-xs text-stone-400 dark:text-stone-600">No data yet</p>
       </div>
@@ -24,7 +24,7 @@ export default function StatsCard({
   const maxCount = items[0].count;
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-5">
+    <div className="rounded-2xl bg-white dark:bg-stone-900 shadow-md p-4 sm:p-5">
       <h3 className="text-sm font-semibold text-stone-600 dark:text-stone-400 mb-3">{title}</h3>
       <div className="space-y-2.5">
         {items.map((item) => (

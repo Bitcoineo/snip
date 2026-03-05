@@ -48,7 +48,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-[family-name:var(--font-geist-sans)] antialiased`}
       >
-        <nav className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
+        <nav className="max-w-5xl mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
           <Link href="/" className="text-xl font-extrabold text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity">
             Snip
           </Link>
@@ -57,7 +57,7 @@ export default function RootLayout({
         <div className="animate-fade-in">
           {children}
         </div>
-        <footer className="flex items-center justify-center gap-3 text-xs text-stone-400 dark:text-stone-600 py-8">
+        <footer className="flex flex-wrap items-center justify-center gap-3 text-xs text-stone-400 dark:text-stone-600 px-4 py-8">
           <span>Built by Bitcoineo</span>
           <a
             href="https://x.com/Bitcoineo"

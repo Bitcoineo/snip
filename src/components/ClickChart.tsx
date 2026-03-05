@@ -22,7 +22,7 @@ export default function ClickChart({ data }: { data: ClickDay[] }) {
       <svg
         viewBox={`0 0 ${chartWidth} ${chartHeight + 40}`}
         className="w-full max-w-full"
-        style={{ minWidth: Math.min(chartWidth, 400) }}
+        style={{ minWidth: Math.min(chartWidth, 280) }}
       >
         {data.map((day, i) => {
           const barHeight = Math.max(

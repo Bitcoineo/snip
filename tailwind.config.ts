@@ -18,6 +18,12 @@ const config: Config = {
           light: "#dbeafe",
         },
       },
+      minHeight: {
+        touch: "44px",
+      },
+      minWidth: {
+        touch: "44px",
+      },
       boxShadow: {
         card: "0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04)",
       },

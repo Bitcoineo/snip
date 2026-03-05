@@ -14,11 +14,11 @@ interface LinkItem {
 
 function Skeleton() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
       {[1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          className="rounded-2xl bg-white dark:bg-stone-900 shadow-card p-4 animate-pulse"
+          className="rounded-2xl bg-white dark:bg-stone-900 shadow-card p-3 sm:p-4 animate-pulse"
         >
           <div className="h-4 bg-stone-200 dark:bg-stone-800 rounded w-40 mb-3" />
           <div className="h-3 bg-stone-200 dark:bg-stone-800 rounded w-full mb-2" />
@@ -67,12 +67,12 @@ export default function LinkList({ refreshKey }: { refreshKey: number }) {
       <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-50 mb-4">
         Recent Links
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {links.map((link) => (
           <button
             key={link.id}
             onClick={() => router.push(`/dashboard/${link.shortCode}`)}
-            className="text-left rounded-2xl bg-white dark:bg-stone-900 shadow-card p-4 hover:scale-[1.02] hover:shadow-lg transition-all duration-200 cursor-pointer"
+            className="text-left rounded-2xl bg-white dark:bg-stone-900 shadow-card p-3 sm:p-4 hover:scale-[1.02] hover:shadow-lg transition-all duration-200 cursor-pointer min-h-touch"
           >
             <div className="flex items-center justify-between gap-3 mb-2">
               <span className="font-mono text-blue-600 dark:text-blue-400 text-sm truncate">
